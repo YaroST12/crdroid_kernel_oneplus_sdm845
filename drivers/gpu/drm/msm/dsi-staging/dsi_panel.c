@@ -964,9 +964,12 @@ static int dsi_panel_update_backlight(struct dsi_panel *panel,
 		if (HBM_flag == true)
 			return 0;
 
+	if (panel->bl_config.bl_high2bit) {
 		rc = mipi_dsi_dcs_set_display_brightness_samsung(dsi, bl_lvl);
-	} else
+	} else {
 		rc = mipi_dsi_dcs_set_display_brightness(dsi, bl_lvl);
+	}
+
 	if (rc < 0)
 		pr_err("failed to update dcs backlight:%d\n", bl_lvl);
 
@@ -3525,6 +3528,22 @@ error:
 	return rc;
 }
 
+static int dsi_panel_parse_oem_config(struct dsi_panel *panel,
+				     struct device_node *of_node)
+{
+	panel->lp11_init = of_property_read_bool(of_node,
+		"qcom,mdss-dsi-lp11-init");
+	if (panel->lp11_init)
+		pr_debug("lp11_init: %d\n", panel->lp11_init);
+
+	panel->bl_config.bl_high2bit = of_property_read_bool(of_node,
+		"qcom,mdss-bl-high2bit");
+	if (panel->bl_config.bl_high2bit)
+		pr_debug("bl_high2bit: %d\n", panel->bl_config.bl_high2bit);
+
+	return 0;
+}
+
 struct dsi_panel *dsi_panel_get(struct device *parent,
 				struct device_node *of_node,
 				int topology_override,
@@ -3626,6 +3645,10 @@ struct dsi_panel *dsi_panel_get(struct device *parent,
 		rc = -ENOTSUPP;
 		goto error;
 	}
+
+	rc = dsi_panel_parse_oem_config(panel, of_node);
+	if (rc)
+		pr_debug("failed to get oem config, rc=%d\n", rc);
 
 	panel->panel_of_node = of_node;
 	drm_panel_init(&panel->drm_panel);

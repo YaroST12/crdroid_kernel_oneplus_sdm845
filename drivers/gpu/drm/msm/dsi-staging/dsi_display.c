@@ -19,6 +19,7 @@
 #include <linux/of_graph.h>
 #include <linux/of_gpio.h>
 #include <linux/err.h>
+#include <linux/msm_drm_notify.h>
 
 #include "msm_drv.h"
 #include "sde_connector.h"
@@ -1264,9 +1265,10 @@ int dsi_display_set_power(struct drm_connector *connector,
 		int power_mode, void *disp)
 {
 	struct dsi_display *display = disp;
-	int rc = 0;
 	struct msm_drm_notifier notifier_data;
+	int rc = 0;
 	int blank;
+
 	if (!display || !display->panel) {
 		pr_err("invalid display/panel\n");
 		return -EINVAL;
@@ -1283,6 +1285,7 @@ int dsi_display_set_power(struct drm_connector *connector,
 		rc = dsi_panel_set_nolp(display->panel);
 		break;
 	}
+
 	if (power_mode == SDE_MODE_DPMS_ON) {
 		blank = MSM_DRM_BLANK_UNBLANK_CUST;
 		notifier_data.data = &blank;

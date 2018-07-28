@@ -4307,7 +4307,7 @@ static void _sde_plane_install_properties(struct drm_plane *plane,
 
 	//xiaoxiaohuan@OnePlus.MultiMediaService, add for fingerprint
 	msm_property_install_range(&psde->property_info, "PLANE_CUST",
-			0x0, 0, INT_MAX, 0, PLANE_PROP_CUSTOM);
+		0x0, 0, INT_MAX, 0, PLANE_PROP_CUSTOM);
 
 	msm_property_install_range(&psde->property_info, "alpha",
 		0x0, 0, 255, 255, PLANE_PROP_ALPHA);
