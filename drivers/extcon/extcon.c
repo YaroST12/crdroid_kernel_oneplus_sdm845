@@ -30,10 +30,10 @@
 #include <linux/device.h>
 #include <linux/fs.h>
 #include <linux/err.h>
-#include <linux/extcon.h>
 #include <linux/of.h>
 #include <linux/slab.h>
 #include <linux/sysfs.h>
+#include <linux/extcon.h>
 
 #define SUPPORTED_CABLE_MAX	32
 #define CABLE_NAME_MAX		30
