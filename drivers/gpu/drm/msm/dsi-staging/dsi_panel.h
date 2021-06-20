@@ -210,7 +210,6 @@ struct dsi_panel {
 	struct dsi_pinctrl_info pinctrl;
 	struct drm_panel_hdr_properties hdr_props;
 	struct drm_panel_esd_config esd_config;
-
 	int hbm_mode;
 	enum dsi_panel_display_mode display_mode;
 
@@ -218,6 +217,11 @@ struct dsi_panel {
 	int aod_status;
 	int aod_curr_mode;
 	int aod_disable;
+	int naive_display_customer_p3_mode;
+	int naive_display_customer_srgb_mode;
+	int naive_display_p3_mode;
+	int naive_display_srgb_color_mode;
+	int naive_display_wide_color_mode;
 	int hbm_backlight;
 	bool is_hbm_enabled;
 	int  op_force_screenfp;
@@ -348,4 +352,15 @@ void dsi_panel_ext_bridge_put(struct dsi_panel *panel);
 int dsi_panel_set_aod_mode(struct dsi_panel *panel, int level);
 
 int dsi_panel_update_backlight(struct dsi_panel *panel, u32 bl_lvl);
+
+int dsi_panel_set_customer_p3_mode(struct dsi_panel *panel, int level);
+
+int dsi_panel_set_customer_srgb_mode(struct dsi_panel *panel, int level);
+
+int dsi_panel_set_native_display_p3_mode(struct dsi_panel *panel, int level);
+
+int dsi_panel_set_native_display_srgb_color_mode(struct dsi_panel *panel, int level);
+
+int dsi_panel_set_native_display_wide_color_mode(struct dsi_panel *panel, int level);
+
 #endif /* _DSI_PANEL_H_ */
